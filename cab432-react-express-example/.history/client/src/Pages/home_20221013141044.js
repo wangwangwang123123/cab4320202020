@@ -1,0 +1,74 @@
+import React, { useEffect } from 'react'
+import { Input,Layout,Typography } from 'antd';
+import "./Home.css"
+
+
+const { Header, Footer, Sider, Content } = Layout;
+const { Search } = Input;
+
+const { Title } = Typography;
+const Home = () => {
+  let local = window.location.host
+
+
+  useEffect(() => {
+		fetch(`http://${local}/teams?id=${teamId}`)
+		//fetch(`http://localhost/teams?id=${teamId}`)
+			.then(res => res.json())
+			.then(res => {
+				setTeamData(res)
+			})
+
+	}, [teamId])
+
+  const onSearch  = (value) =>{
+
+    if(value){
+      fetch(`http://${local}/twitter/add?query=${value}`)
+      .then(res=>{
+        console.log(res)
+      })
+     
+    }else{
+      console.log("please input the keyword")
+    }
+    
+  }
+
+  
+  return (
+	<div>
+   <Layout>
+    <Header>
+        Header!!!!
+    </Header>
+
+   {/* search area */}
+     <Content>
+      <div className='searchArea'>
+        <Title>Please input the filtered keyword to search tweets</Title>
+          <Search
+            placeholder="input search text"
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={onSearch}
+          />
+      </div>
+     
+     </Content>
+
+        {/* tweets area */}
+      <Content>Content</Content>
+
+
+
+          {/* word cloud area */}
+      <Content>Content</Content>
+    </Layout>
+
+  </div>
+  )
+}
+
+export default Home
